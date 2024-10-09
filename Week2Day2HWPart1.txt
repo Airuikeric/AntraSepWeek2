@@ -1,0 +1,124 @@
+Understanding Date Types
+1. What type would you choose for the following “numbers”?
+    A person’s telephone number - string
+    A person’s height - string
+    A person’s age - ushort
+    A person’s gender (Male, Female, Prefer Not To Answer) - string 
+    A person’s salary - decimal
+    A book’s ISBN - string
+    A book’s price - decimal
+    A book’s shipping weight - float or double
+    A country’s population - ulong
+    The number of stars in the universe - ulong, BigInteger (extreme precision)
+    The number of employees in each of the small or medium businesses in the United Kingdom 
+    (up to about 50,000 employees per business) - ushort
+    
+ 2. What are the difference between value type and reference type variables? What is boxing and unboxing?
+ In C#, value types and reference types differ in several important ways. Value types, created using struct or enum, 
+ directly hold their data and are typically stored on the stack, though they can reside on the heap if they’re part of 
+ a class. They are not managed by the garbage collector and cannot hold null values by default, though nullable value 
+ types (e.g., int?) allow for null assignments. In contrast, reference types, created using class, interface, delegate, 
+ or array, hold a reference to the memory location of the data stored on the heap, and these references are managed by 
+ the garbage collector. Reference types can hold null to indicate the absence of a value. Additionally, C# provides 
+ boxing and unboxing for converting between value and reference types: boxing converts a value type to an object type 
+ by copying it to the heap, while unboxing converts an object back to its original value type. These distinctions are 
+ crucial for memory management and performance optimization in C#.
+    
+ 3. What is meant by the terms managed resource and unmanaged resource in .NET 
+ In .NET, managed resources are those that are handled directly by the .NET runtime (or the Common Language Runtime - 
+ CLR). This includes memory for objects allocated on the managed heap, which is managed by the garbage collector. 
+ Examples of managed resources include instances of classes and arrays, which are automatically allocated and deallocated 
+ by the CLR.
+ 
+ On the other hand, unmanaged resources are resources that the .NET runtime does not handle directly. These typically
+ include resources like file handles, database connections, and network sockets that are allocated outside the .NET 
+ managed environment. Since the garbage collector does not automatically release unmanaged resources, developers must 
+ release them explicitly, often using the Dispose() method defined in the IDisposable interface. Properly disposing of 
+ unmanaged resources helps prevent memory leaks and resource conflicts.
+ 
+ 4. What is the purpose of Garbage Collector in .NET?
+ The garbage collector (GC) in .NET is responsible for automatically managing memory allocation and deallocation for 
+ managed resources. Its main purpose is to reclaim memory that is no longer in use, thereby preventing memory leaks 
+ and optimizing resource usage. The GC organizes managed heap memory into three generations (Generation 0, 1, and 2), 
+ which helps prioritize the cleanup of short-lived objects. Objects that survive multiple GC cycles are promoted to 
+ higher generations, as they are likely to have a longer lifespan.
+ 
+ By freeing up unused memory, the garbage collector helps ensure that applications have access to the resources they 
+ need without manual intervention from the developer. However, it doesn’t manage unmanaged resources, so developers 
+ must explicitly release those resources to avoid potential issues.
+ 
+ Controlling Flow and Converting Types
+ 1. What happens when you divide an int variable by 0?
+    Dividing an int by 0 will throw a System.DivideByZeroException at runtime. 
+
+ 2. What happens when you divide a double variable by 0?
+    Dividing a double by 0 results in Infinity (∞) instead of an exception. The result will be +Infinity for positive values 
+    or -Infinity for negative values.
+  
+ 3. What happens when you overflow an int variable, that is, set it to a value beyond its range?
+    Compile-Time: If you assign a literal value that exceeds the range of int (e.g., int x = 2147483648;), the compiler 
+    will show an error.
+	Runtime: If the overflow happens at runtime (e.g., through addition), it will “wrap around” unless checked explicitly. 
+	For example, int.MaxValue + 1 results in int.MinValue if overflow checking is not enabled. You can enable overflow 
+	checking with the checked keyword to get an exception. 
+	
+ 4. What is the difference between x = y++; and x = ++y;?
+    x = y++; assigns y to x first, and then increments y by 1. So, x gets the original value of y, and then y is increased.
+	x = ++y; increments y by 1 first, then assigns the incremented value to x. So, both x and y receive the incremented value of y.
+ 
+ 5. What is the difference between break, continue, and return when used inside a loop
+ statement?
+    break: Exits the loop immediately, ending all remaining iterations.
+ 	continue: Skips the current iteration and moves to the next iteration of the loop.
+ 	return: Exits the method entirely, regardless of whether the loop has completed.
+ 	
+ 6. What are the three parts of a for statement and which of them are required?
+ 	The three parts are: initialization, condition, and iteration (e.g., for (int i = 0; i < 10; i++)).
+ 	Required: None of the parts are strictly required; they can be left blank (e.g., for ( ; ; )), which creates an 
+ 	infinite loop if no break statement is used.
+ 
+ 7. What is the difference between the = and == operators?
+ 	= is the assignment operator, which assigns a value to a variable (e.g., x = 5;).
+ 	== is the equality operator, which checks if two values are equal (e.g., x == 5 returns true if x is 5).
+ 	
+ 8. Does the following statement compile? for ( ; true; ) ;
+    Yes, this statement compiles. It’s a valid infinite loop because the condition true always holds, and there are 
+    no initialization or iteration expressions.
+ 
+ 9. What does the underscore _ represent in a switch expression?
+    The underscore _ in a switch expression serves as the default case. It matches any value not covered by previous 
+    cases, effectively acting as a “catch-all.”
+    
+ 10. What interface must an object implement to be enumerated over by using the foreach statement?
+    An object must implement the IEnumerable interface (or IEnumerable<T> for generic collections) to be used in a foreach 
+    loop. This interface allows the collection to be iterated over sequentially.
+    
+ Array and Strings
+ 1. When to use String vs. StringBuilder in C# ?
+ Since String is immutable, it’s a good practice to use it for storing sensitive data like usernames and passwords. 
+ Once assigned, the value cannot be modified, which adds an extra layer of safety. On the other hand, StringBuilder 
+ is ideal within method implementations where you need to modify the string frequently. It allows you to efficiently 
+ build or modify strings based on specific needs, and, once finished, you can convert the StringBuilder back to a String.
+ 
+ 2. What is the base class for all arrays in C#?
+ The base class for all arrays in C# is System.Array. All array types in C# derive from this class, which provides 
+ properties and methods for managing arrays.
+
+ 3. How do you sort an array in C#?
+ You can sort an array in C# using the Array.Sort() method, which is part of the System.Array class
+ For example: Array.Sort(numbers);
+ 
+ 4. What property of an array object can be used to get the total number of elements in an array?
+ The Length property of an array provides the total number of elements in the array. 
+ For example: int totalElements = numbers.Length;
+ 
+ 5. Can you store multiple data types in System.Array?
+ No, System.Array is a collection of elements of a single type, meaning all elements in an array must be of the same 
+ data type. However, if you want to store multiple types, you can declare an array of object (e.g., object[]) and store
+ various types of data within it, though this is generally not recommended for type safety.
+ 
+ 6. What’s the difference between the System.Array.CopyTo() and System.Array.Clone()?
+ CopyTo(): CopyTo() copies the elements of an array to another existing array, starting at a specified index in the 
+ target array. It requires an already initialized array to copy into.
+ Clone(): Clone() creates a shallow copy of the array, returning a new array with the same elements. It does not require
+ a target array.
